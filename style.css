@@ -1,0 +1,150 @@
+﻿/*  Global Styles   */
+body {
+    background: linear-gradient(135deg, #000000,#4e0c89,#000000);
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    margin:0;
+    padding: 0;
+}
+
+/*  Container   */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/*  Stats Section   */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align:center;
+    flex:1;
+    margin: 0 10px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 24px;
+    color: #ffdd57;
+    margin-top: 8px;
+}
+
+
+/*  Forms   */
+.section {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #666;
+    border-radius: 10px;
+}
+
+/*  Textbox   */
+.txt {
+    height: 40px;
+    width: 220px;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 10px 10px;
+}
+
+/*  Button  */
+.btn {
+    height: 45px;
+    width: 200px;
+    border: none;
+    border-radius: 8px;
+    background: #6a0dad;
+    color: #ffff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top:10px;
+    transition: 0.3s;
+}
+
+    .btn:hover {
+        background: #9b30ff;
+    }
+
+    .btn.add {
+        background: #28a745; /* green */
+    }
+
+        .btn.add:hover {
+            background: #45c765;
+        }
+
+    .btn.spend {
+        background: #dc3545; /* red */
+    }
+
+        .btn.spend:hover {
+            background: #ff5a6a;
+        }
+
+
+
+/* Transaction Table */
+.history-table, .history-table th, .history-table td {
+    border: 1px solid #888;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+.history-table {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+    .history-table tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .history-table tr:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+
+    .history-table th {
+        background: #333;
+    }
+
+.message {
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+
+@media (max-width: 768px) {
+    .stats {
+        flex-direction: column;
+    }
+
+    .stat-box {
+        margin: 10px 0;
+    }
+}
