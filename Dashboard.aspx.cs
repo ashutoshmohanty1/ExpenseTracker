@@ -27,6 +27,11 @@ namespace Expense_Tracker
             {
                 query += " WHERE Date BETWEEN @FromDate AND @ToDate";
             }
+            else
+            {
+                // Default: show only this month's transactions
+                query += " WHERE MONTH(Date) = MONTH(GETDATE()) AND YEAR(Date) = YEAR(GETDATE())";
+            }
 
             query += " ORDER BY TransactionID DESC";
 
@@ -44,13 +49,16 @@ namespace Expense_Tracker
             GridView1.DataBind();
         }
 
+
         private void UpdateStats()
         {
             string query = @"
-                SELECT 
-                    SUM(CASE WHEN Type='Add' THEN Amount ELSE 0 END) AS MoneyReceived,
-                    SUM(CASE WHEN Type='Spent' THEN Amount ELSE 0 END) AS MoneySpent
-                FROM Transactions";
+        SELECT 
+            SUM(CASE WHEN Type='Add' THEN Amount ELSE 0 END) AS MoneyReceived,
+            SUM(CASE WHEN Type='Spent' THEN Amount ELSE 0 END) AS MoneySpent
+        FROM Transactions
+        WHERE MONTH(Date) = MONTH(GETDATE()) 
+          AND YEAR(Date) = YEAR(GETDATE())";
 
             SqlCommand cmd = new SqlCommand(query, con);
             con.Open();
