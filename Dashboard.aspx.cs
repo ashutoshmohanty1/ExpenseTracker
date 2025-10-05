@@ -52,17 +52,19 @@ namespace Expense_Tracker
 
         private void UpdateStats()
         {
-            string query = @"
-        SELECT 
-            SUM(CASE WHEN Type='Add' THEN Amount ELSE 0 END) AS MoneyReceived,
-            SUM(CASE WHEN Type='Spent' THEN Amount ELSE 0 END) AS MoneySpent
-        FROM Transactions
-        WHERE MONTH(Date) = MONTH(GETDATE()) 
-          AND YEAR(Date) = YEAR(GETDATE())";
+            // 1️⃣ Monthly stats for MoneyReceived and MoneySpent
+            string monthlyQuery = @"
+            SELECT 
+                SUM(CASE WHEN Type='Add' THEN Amount ELSE 0 END) AS MoneyReceived,
+                SUM(CASE WHEN Type='Spent' THEN Amount ELSE 0 END) AS MoneySpent
+            FROM Transactions
+                WHERE MONTH(Date) = MONTH(GETDATE()) 
+                AND YEAR(Date) = YEAR(GETDATE())
+            ";
 
-            SqlCommand cmd = new SqlCommand(query, con);
+            SqlCommand cmdMonthly = new SqlCommand(monthlyQuery, con);
             con.Open();
-            SqlDataReader dr = cmd.ExecuteReader();
+            SqlDataReader dr = cmdMonthly.ExecuteReader();
             if (dr.Read())
             {
                 decimal received = dr["MoneyReceived"] != DBNull.Value ? Convert.ToDecimal(dr["MoneyReceived"]) : 0;
@@ -70,10 +72,25 @@ namespace Expense_Tracker
 
                 lblMoneyReceived.Text = received.ToString("0.00");
                 lblMoneySpent.Text = spent.ToString("0.00");
-                lblBalance.Text = (received - spent).ToString("0.00");
             }
+            dr.Close();
+
+            // 2️⃣ Cumulative balance (all-time)
+            string balanceQuery = @"
+            SELECT 
+                SUM(CASE WHEN Type='Add' THEN Amount ELSE 0 END) -
+                SUM(CASE WHEN Type='Spent' THEN Amount ELSE 0 END) AS Balance
+            FROM Transactions
+            ";
+
+            SqlCommand cmdBalance = new SqlCommand(balanceQuery, con);
+            object result = cmdBalance.ExecuteScalar();
+            decimal balance = result != DBNull.Value ? Convert.ToDecimal(result) : 0;
+            lblBalance.Text = balance.ToString("0.00");
+
             con.Close();
         }
+
 
         protected void Button1_Click(object sender, EventArgs e)
         {
